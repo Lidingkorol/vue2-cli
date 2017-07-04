@@ -15,12 +15,12 @@
         },
         created(){
             console.log(3)
-            this.$emit('isLoading',false);
+            this.$emit('isLoading',true);
 
         },
         mounted(){
             console.log(2)
-            this.$emit('isLoading',true);
+            this.$emit('isLoading',false);
         },
         beforeDestroy () {
         },

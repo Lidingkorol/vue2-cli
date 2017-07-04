@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition name="fade">
-        <router-view></router-view>
+        <router-view @isLoading="loading"></router-view>
     </transition>
     <transition name="fade">
         <div class="loading" style="position: relative;" v-show="indexLoading" @touchmove.prevent>
@@ -32,10 +32,7 @@
           }*/
       },
       created(){
-          this.$on('isLoading',function(value){
-              console.log(value)
-              this.indexLoading=value;
-          })
+
       },
       ready () {
 
@@ -44,7 +41,11 @@
 
       },
       methods: {
-
+          loading:function(value){
+              this.indexLoading=value;
+              console.log('loading')
+              console.log(this.indexLoading)
+          }
       },
   }
 </script>

@@ -43,12 +43,15 @@
         },
         created(){
             console.log(1)
-            this.$emit('isLoading',false);
+            this.$emit('isLoading',true);
 
         },
         mounted(){
-          console.log(2)
-          this.$emit('isLoading',true);
+            var that=this
+            setTimeout(function(){
+                that.$emit('isLoading',false);
+            },5000)
+
         },
         beforeDestroy () {
         },
