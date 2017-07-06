@@ -10,7 +10,7 @@ import actions from './actions'
 Vue.use(Vuex)
 
 const state = {
-      indexLoading:false
+      
 }
 
 
