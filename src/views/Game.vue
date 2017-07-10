@@ -43,6 +43,7 @@
         },
         created(){
             console.log(1)
+            console.log(this)
             this.$emit('isLoading',true);
 
         },
