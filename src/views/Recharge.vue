@@ -15,12 +15,11 @@
         created(){
 
         },
-        ready () {
-
-        },
         beforeDestroy () {
 
         },
-        methods: {}
+        methods: {
+        	
+        }
     }
 </script>

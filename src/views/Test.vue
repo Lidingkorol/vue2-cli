@@ -21,6 +21,7 @@
         mounted(){
             console.log(2)
             this.$emit('isLoading',false);
+            this.getData();
         },
         beforeDestroy () {
         },
@@ -28,6 +29,19 @@
 
         },
         methods: {
+        	getData(){
+		        this.$http.get('http://localhost:8080/api/center')
+	               .then((response) => {
+					console.log('23')
+	                 this.test=response.data;
+	                 console.log(response.data)
+	
+	               }).catch(function(response) {
+					console.log('24')
+	               console.log(response)
+	
+	            })
+        	}
         }
     }
 </script>

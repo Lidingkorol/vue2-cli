@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import Game from '../views/Game'
 import Center from '../views/Center'
 import Recharge from '../views/Recharge'
-
+import Test from '../views/Test'
 
 
 
@@ -35,6 +35,11 @@ export default new Router({
       path: '/recharge',
       name: 'Recharge',
       component: Recharge
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      component: Test
     }
 
   ]
