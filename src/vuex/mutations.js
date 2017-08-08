@@ -4,9 +4,18 @@
 
 
 var mutations = {
-    SET_LOADING (state,platform) {
+    ROUTER_LOADING (state,platform) {
         state.indexLoading = platform
         console.log(state.indexLoading)
+    },
+    USER_DATA (state,res) {
+    	state.userData = res
+    },
+    LIST_DATA (state,res) {
+    	state.listData = res;
+    },
+    AWARD_DATA (state,res) {
+    	state.awardData = res;
     }
 }
 

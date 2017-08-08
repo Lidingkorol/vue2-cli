@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition name="fade">
-        <router-view @isLoading="loading"></router-view>
+        <router-view></router-view>
     </transition>
     <transition name="fade">
         <div class="loading" style="position: relative;" v-show="indexLoading" @touchmove.prevent>
@@ -19,33 +19,31 @@
 </template>
 
 <script>
+	
+	
+	
+	import {mapState} from "vuex";
+  
+  
+  
   export default {
       data () {
           return {
               scrolledTop:0,
-              indexLoading:false
           }
       },
       computed :{
-      	  /*indexLoading (){
-              return this.$store.state.indexLoading;
-          }*/
+      		...mapState([
+    					'indexLoading'
+  				])
       },
       created(){
-
-      },
-      ready () {
 
       },
       beforeDestroy () {
 
       },
       methods: {
-          loading:function(value){
-              this.indexLoading=value;
-              console.log('loading')
-              console.log(this.indexLoading)
-          }
       },
   }
 </script>

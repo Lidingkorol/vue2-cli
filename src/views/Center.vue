@@ -4,23 +4,28 @@
 <template>
     <div class="container">
         <router-link :to="{ name: 'Game', params: { userId: 123 }}">game</router-link>
+        <p @click="setData()">{{userData}}</p>
+        <
     </div>
 </template>
 <script>
-
+	
+	import {mapState} from "vuex";
 
     export default {
         data () {
             return {}
         },
+        computed :{
+      		...mapState([
+				'userData'
+			])
+      	},
         created(){
-            console.log(3)
-            this.$emit('isLoading',true);
-
+			this.$store.dispatch('getUserInfo');
         },
         mounted(){
-            console.log(2)
-            this.$emit('isLoading',false);
+        	this.$store.dispatch("setLoading",false);
         },
         beforeDestroy () {
         },

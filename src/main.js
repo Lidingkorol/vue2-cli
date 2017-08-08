@@ -6,10 +6,12 @@ import VueResource from 'vue-resource'
 import router from './router'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';    // 使用 CSS
+//import 'swiper/dist/css/swiper.css'
+//import VueAwesomeSwiper from 'vue-awesome-swiper'
 
 import store from './vuex/store'
 
-
+//Vue.use(VueAwesomeSwiper)
 Vue.use(VueResource)
 Vue.use(iView);
 
@@ -20,20 +22,30 @@ console.log(store)
 
 
 
-
-
 Vue.config.productionTip = false
 
 
 
 
+router.beforeEach((to, from, next) => {
+		console.log(2)
+  	store.dispatch("setLoading",true);
+  	next();
+  	
+})
+
+router.afterEach((to, from, next) => {
+		console.log(3)
+})
+
+
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  store,
-  router,
-  template: '<App/>',
-  render:h=>h(App),
-  components: { App }
+	  el: '#app',
+	  store,
+	  router,
+	  template: '<App/>',
+	  render:h=>h(App),
+	  components: { App }
 })
