@@ -16,6 +16,13 @@ var mutations = {
     },
     AWARD_DATA (state,res) {
     	state.awardData = res;
+    },
+    LOTTERY_DATA(state,res) {
+    	state.lotteryData = res;
+    },
+    FRIEND_DATA(state,res) {
+    	state.friendData.list.push(...res.list);
+    	state.friendData.page = res.page++;
     }
 }
 

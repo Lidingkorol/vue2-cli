@@ -12,8 +12,13 @@ Vue.use(Vuex)
 const state = {
     indexLoading:false,
     userData:{},
-    listData:{},
+    listData:[],
     awardData:{},
+    lotteryData:{},
+    friendData:{
+    	page:0,
+    	list:[],
+    },
 }
 
 

@@ -12,6 +12,8 @@ var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 
+var bodyParser = require('body-parser');  
+
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
 // automatically open browser, if not set will be false
@@ -53,7 +55,7 @@ app.use(require('connect-history-api-fallback')())
 
 // serve webpack bundle output
 app.use(devMiddleware)
-
+app.use(bodyParser.urlencoded({ extended: false }))
 // enable hot-reload and state-preserving
 // compilation error display
 app.use(hotMiddleware)

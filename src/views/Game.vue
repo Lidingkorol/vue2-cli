@@ -21,10 +21,13 @@
 		.h_button  {
 			display: flex;
 			justify-content: center;
-			button {
+			>a {
 				font-size: .34rem;
+				color: #000;
+				text-align: center;
+				line-height: .7rem;
 			}
-			.recharge {
+			.center {
 				background:url(../../static/images/button.png) no-repeat;
 				background-size: cover;
 				width: 2rem;
@@ -34,7 +37,7 @@
 				margin-left: .5rem;
 				font-weight: bold;
 			}
-			.center {
+			.recharge {
 				background:url(../../static/images/button.png) no-repeat;
 				background-size: cover;
 				width: 2rem;
@@ -96,11 +99,11 @@
 							width: 1.25rem;
 							height: 1.25rem;
 							box-sizing: border-box;
-							border:8px solid rgb(47, 47, 47);
+							border:2px solid rgb(47, 47, 47);
 							border-radius: .1rem;
 						}
 						img.active {
-							border:8px solid rgb(239,55,55);
+							border:2px solid rgb(239,55,55);
 						}
 					}
 				}
@@ -108,9 +111,8 @@
 				width: 1rem;
 				height: 1rem;
 				position: absolute;
-				top: 50%;
-			    left: 50%;
-			    transform: translate(-50%,-50%);
+				top: 2.3rem;
+			    left: 2.3rem;
 				}
 				>a.rotate img {
 					-moz-transform: rotateZ(360deg);
@@ -199,8 +201,8 @@
 				<img src="../../static/images/title_01_03.png" class="rotate">
 			</div>
 			<div class="h_button">
-				<button  class="center" v-link="{path:'/recharge'}">充值中心</button>
-				<button  class="recharge" v-link="{path:'/center'}">个人中心</button>
+				<router-link to="/recharge" class="recharge">充值中心</router-link>
+				<router-link to="/center" class="center">个人中心</router-link>
 			</div>
 	        <div class="turnTable">
 	            <div class="content">
@@ -220,7 +222,7 @@
 	                    <ul class="goods">
 	                        <li v-for="(item,i) in listData"><img :src="item.img" :class="[lottery.isActive-1==i? 'active' : '' ]"></li>
 	                    </ul>
-	                    <a class="refresh" @click="randomArr(goods)" :class="{rotate:isRotate}">
+	                    <a class="refresh" @click="randomArr()" :class="{rotate:isRotate}">
 							<img src="../../static/images/refresh_03.png">
 						</a>
 	                </div>
@@ -228,15 +230,15 @@
 	        </div>
 	    </div>
 	    <div class="buttonBox">
-	    	<button @click="playOnce($event)" class="once fontSize_34">抽一次</button>
-			<button @click="playMore($event)" class="more fontSize_34">抽十次</button>
+	    	<button @click="getAward(1)" class="once">抽一次</button>
+			<button @click="getAward(2)" class="more">抽十次</button>
 	    </div>
     </div>
 </template>
 <script>
 	
-	import {mapState} from "vuex";
-	import {Cubic} from '../libs/tween'
+	import { mapState,mapActions } from 'vuex'
+	import {Sine} from '../libs/tween'
 	
     export default {
         data () {
@@ -245,26 +247,26 @@
 					isActive:1,     //当前位置的商品
 					allGoods:16,	//转盘商品总个数
 					timer:null,  	//定时器
-					speed:200,		//转动速度
-					reward:15,		//中奖的商品位置              
+					speed:200,		//转动速度            
 					times:0,		//当前转动次数
 					cycle:100,		//基本转动次数
 					isPlaying:true	//是否在游戏中
 				}, 
+				isRotate:false,
             }
         },
         computed:{
         	...mapState([
 				'listData',
 				'userData',
-				'awardData'
+				'awardData',
+				'awardNum',
+				'lotteryData',
 			])
         },
         created(){
-			this.$store.dispatch("getUserInfo").then(()=>{
-				this.$store.dispatch("getListGoods",this.userData.uid);
-			});
-			this.$store.dispatch("getAwardData")
+			this.getListGoods();
+			this.getAwardData();
         	this.$store.dispatch("setLoading",false);
         },
         mounted(){
@@ -276,9 +278,60 @@
 
         },
         methods: {
+        	 ...mapActions([
+        	 	'getListGoods',
+        	 	'getAwardData',
+        	 	'getAwardNum',
+        	 	'randomList',
+        	 ]),
         	randomArr:function(){
         		
+        	},
+        	async getAward(i) {
+        		await this.getAwardNum(i);
+        		let time = this.findGoods(this.lotteryData.goods_id)
+        		this.lottery.reward = time;
+        		this.play();
+        	},
+        	play:function(i){
+        		this.lottery.isPlaying=false;
+        		this.lottery.times++;
+        		this.lottery.isActive++;
+        		if(this.lottery.cycle<this.lottery.times&&this.lottery.isActive==this.lottery.reward) {
+        			this.lottery.speed=200;
+        			this.lottery.times=0;
+        			clearTimeout(this.lottery.timer);
+        			this.lottery.isPlaying=true;
+        			this.isShow=true;
+        			this.isChanging=false;
+        			return false;
+        		}
+				this.lottery.isActive = this.lottery.isActive>16 ? 1 : this.lottery.isActive;
+				this.lottery.speed=0.01*Math.pow((this.lottery.times-10),2)+30
+				if(this.lottery.speed<0) {
+					this.lottery.speed=10;
+				}
+        		this.lottery.timer=setTimeout(this.play,this.lottery.speed)
+        	},
+        	findGoods:function(target){
+        		var num;
+        		this.listData.forEach(function(i,index){
+        			if(i.goods_id==target) {
+        				num = index;
+        				return num;
+        			}
+        		})
+        		return num;
+        	},
+        	randomArr:function(){
+        		this.isRotate=true;
+        		this.randomList(this.listData)
+        		setTimeout(()=>{
+        			this.isRotate=false;
+        			console.log('a')
+        		},1000)
         	}
+        	
         }
     }
 </script>

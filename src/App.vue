@@ -22,7 +22,7 @@
 	
 	
 	
-	import {mapState} from "vuex";
+	import {mapState,mapActions} from "vuex";
   
   
   
@@ -38,12 +38,15 @@
   				])
       },
       created(){
-
+				this.getUserInfo();
       },
       beforeDestroy () {
 
       },
       methods: {
+      	...mapActions([
+    					'getUserInfo'
+  				])
       },
   }
 </script>

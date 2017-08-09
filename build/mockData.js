@@ -21,21 +21,17 @@ app.get('/api/getUser', function (req, res) {
 
 app.post('/api/getListGoods', function (req, res) {
     var Random = Mock.Random,
-/*    	imgList = [];
+    	imgList = [];
     	for(let i=0;i<16;i++){
     		imgList.push({
     			img : Random.image('200x100', Random.color(),Random.word(3, 5)),
-    			
-    			})
-    	}*/
+    			goods_id : 100 + i,
+            	goods_name : Random.ctitle(3, 8),
+    		})
+    	}
         data = Mock.mock({
             status : '200',
-            'data|16' : [
-            	{
-            		img : Random.image('200x100', Random.color(),Random.word(3, 5)),
-            		
-            	}
-            ]
+            'data' : imgList
         });
 
     res.send( JSON.stringify(data, null, 4) );
@@ -56,6 +52,40 @@ app.get('/api/getAwardData', function (req, res) {
     res.send( JSON.stringify(data, null, 4) );
 });
 
+app.post('/api/getAwardNum', function (req, res) {
+	console.log(req.body)
+	
+    var Random = Mock.Random,
+        data   = Mock.mock({
+            status: '200',
+            'data': {
+                goods_id :  Random.natural(100,116),
+                goods_name : Random.ctitle(3, 8),
+            }
+        });
 
+    res.send( JSON.stringify(data, null, 4) );
+});
+
+app.post('/api/getFriendsList', function (req, res) {
+	console.log(req.body)
+	var Random = Mock.Random;
+	let page = req.body.page;
+	let arr = [];
+	for(let i=0;i<50;i++){
+		arr.push({
+			img : Random.image('200x100', Random.color(),Random.word(3, 5)),
+			goods_id : 100 + i,
+        	goods_name : Random.ctitle(3, 8),
+        	logo : Random.image('200x100', Random.cname()),
+		})
+	}
+    let data   = Mock.mock({
+        status: '200',
+        'data': arr.slice(page*6,(page+1)*6)
+    });
+
+    res.send( JSON.stringify(data, null, 4) );
+});
 
 module.exports = app;
