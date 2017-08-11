@@ -8,6 +8,7 @@ let config = {
     //apiDomain: 'http://www.haitao.cn',
     apiDomain: 'http://localhost:8080',
     imgDomain: '',
-    serverUrl:''
+    qrCode:'',
+    serverUrl:'',
 };
 export default config;
