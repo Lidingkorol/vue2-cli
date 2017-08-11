@@ -78,11 +78,12 @@ app.post('/api/getFriendsList', function (req, res) {
 			goods_id : 100 + i,
         	goods_name : Random.ctitle(3, 8),
         	logo : Random.image('200x100', Random.cname()),
+        	order_id : Random.natural(100000, 10000000),
 		})
 	}
     let data   = Mock.mock({
         status: '200',
-        'data': arr.slice(page*6,(page+1)*6)
+        'data': arr.slice(page*10,(page+1)*10)
     });
 
     res.send( JSON.stringify(data, null, 4) );

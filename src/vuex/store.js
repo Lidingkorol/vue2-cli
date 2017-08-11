@@ -18,6 +18,8 @@ const state = {
     friendData:{
     	page:0,
     	list:[],
+    	isLoading:true,
+    	hasMore:true,
     },
 }
 

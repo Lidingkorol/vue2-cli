@@ -62,12 +62,19 @@ const actions = {
 	    }
 	    commit('LIST_DATA', _arr);
     },
-    async getFriendsList({commit},i) {
-    	let res = await Request.post(Config.apiDomain + '/api/getFriendsList',{data:{page:i}});
+    async getFriendsList(store,obj) {
+    	if(!store.state.friendData.isLoading){
+    		return ;
+    	}
+    	store.commit('UPDATE_FRIEND_DATA', false);
+    	let res = await Request.post(Config.apiDomain + '/api/getFriendsList',{data:{page:obj.page}});
         if(res.status == 200&& !!res.data) {
-        	commit('FRIEND_DATA',{list:res.data,page:i})
+        	store.commit('FRIEND_DATA',{list:res.data,page:obj.page,isLoading:true})
+        	if(res.data.length<10) {
+        		store.commit('HASMORE_FRIEND_DATA', false);
+        	}
         }else {
-        	commit('DEFAULT_DATA', res.data)
+        	store.commit('DEFAULT_DATA', res.data)
         }
     }
 }

@@ -22,7 +22,15 @@ var mutations = {
     },
     FRIEND_DATA(state,res) {
     	state.friendData.list.push(...res.list);
-    	state.friendData.page = res.page++;
+    	res.page++;
+    	state.friendData.page = res.page;
+    	state.friendData.isLoading = res.isLoading;
+    },
+    UPDATE_FRIEND_DATA(state,res) {
+    	state.friendData.isLoading = res;
+    },
+    HASMORE_FRIEND_DATA(state,res) {
+    	state.friendData.hasMore = res;
     }
 }
 
