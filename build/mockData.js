@@ -67,7 +67,7 @@ app.post('/api/getAwardNum', function (req, res) {
     res.send( JSON.stringify(data, null, 4) );
 });
 
-app.post('/api/getFriendsList', function (req, res) {
+app.post('/api/getMyList', function (req, res) {
 	console.log(req.body)
 	var Random = Mock.Random;
 	let page = req.body.page;
@@ -77,6 +77,27 @@ app.post('/api/getFriendsList', function (req, res) {
 			img : Random.image('200x100', Random.color(),Random.word(3, 5)),
 			goods_id : 100 + i,
         	goods_name : Random.ctitle(3, 8),
+        	logo : Random.image('200x100', Random.cname()),
+        	order_id : Random.natural(100000, 10000000),
+		})
+	}
+    let data   = Mock.mock({
+        status: '200',
+        'data': arr.slice(page*10,(page+1)*10)
+    });
+
+    res.send( JSON.stringify(data, null, 4) );
+});
+
+app.post('/api/getFriendList', function (req, res) {
+	var Random = Mock.Random;
+	let page = req.body.page;
+	let arr = [];
+	for(let i=0;i<50;i++){
+		arr.push({
+			goods_prise : Random.natural(10, 200),
+			goods_name : Random.ctitle(3, 8),
+        	nickname : Random.ctitle(3, 8),
         	logo : Random.image('200x100', Random.cname()),
         	order_id : Random.natural(100000, 10000000),
 		})

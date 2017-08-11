@@ -15,7 +15,7 @@ const state = {
     listData:[],
     awardData:{},
     lotteryData:{},
-    friendData:{
+    myData:{
     	page:0,
     	list:[],
     	isLoading:true,

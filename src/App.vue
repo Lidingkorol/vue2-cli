@@ -14,7 +14,10 @@
             </Spin>
         </div>
     </transition>
-      <!--<div class="touch-back" @click.prevent="backTop" v-show="scrolledTop>200"  transition="ani-in"></div>-->
+    <transition name="ani-in">
+    	<div class="touch-back" @click.prevent="backTop" v-show="scrolledTop>200"></div>
+    </transition>
+    
   </div>
 </template>
 
@@ -23,7 +26,8 @@
 	
 	
 	import {mapState,mapActions} from "vuex";
-  
+  import Util from './libs/util'
+  import {Bounce} from './libs/tween'
   
   
   export default {
@@ -40,13 +44,29 @@
       created(){
 				this.getUserInfo();
       },
+      mounted(){
+      	console.log(Util)
+      	window.addEventListener('scroll',Util.throttle(this.handleScroll,250,500));
+      },
       beforeDestroy () {
 
       },
       methods: {
       	...mapActions([
-    					'getUserInfo'
-  				])
+    				'getUserInfo'
+  			]),
+  			handleScroll(){
+          	this.scrolledTop = window.scrollY;
+       	},
+       	backTop:function(){
+       		let [t,b,c,d]=[600/1000,window.scrollY,-window.scrollY,1]
+	        let x=Bounce.easeIn(t,b,c,d);
+	        window.scrollTo(0,x);
+	        if(x<=0){
+	            return false;
+	        }
+	        requestAnimationFrame(this.backTop);
+       	}
       },
   }
 </script>
@@ -154,4 +174,17 @@
       -webkit-transform: translate3d(-50%,-50%,0) rotate(-45deg);
       transform: translate3d(-50%,-50%,0) rotate(-45deg);
   }
+  .ani-in-enter-active,.ani-in-leave-active {
+    transition: all .3s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+    transform: scale(1);
+    opacity: 1;
+	}
+	
+	.ani-in-enter {
+	    transform: scale(0);
+	    opacity: 0;
+	}
+	.ani-in-leave-to {
+	    opacity: 0;
+	}
 </style>

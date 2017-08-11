@@ -20,17 +20,17 @@ var mutations = {
     LOTTERY_DATA(state,res) {
     	state.lotteryData = res;
     },
-    FRIEND_DATA(state,res) {
-    	state.friendData.list.push(...res.list);
+    MY_DATA(state,res) {
+    	state.myData.list.push(...res.list);
     	res.page++;
-    	state.friendData.page = res.page;
-    	state.friendData.isLoading = res.isLoading;
+    	state.myData.page = res.page;
+    	state.myData.isLoading = res.isLoading;
     },
-    UPDATE_FRIEND_DATA(state,res) {
-    	state.friendData.isLoading = res;
+    UPDATE_MY_DATA(state,res) {
+    	state.myData.isLoading = res;
     },
-    HASMORE_FRIEND_DATA(state,res) {
-    	state.friendData.hasMore = res;
+    HASMORE_MY_DATA(state,res) {
+    	state.myData.hasMore = res;
     }
 }
 

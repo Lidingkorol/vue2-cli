@@ -79,12 +79,11 @@ export default {
         }
         return null;
     },
-    throttle(fn,delay,atleast) {
-    	// 节流
+    throttle(func, wait, mustRun) {
         let timeout,
             startTime = new Date();
 
-        return this.fun = function() {
+        return function() {
             let context = this,
                 args = arguments,
                 curTime = new Date();
@@ -97,5 +96,5 @@ export default {
                 timeout = setTimeout(func, wait);
             }
         };
-    }
+    },
 }

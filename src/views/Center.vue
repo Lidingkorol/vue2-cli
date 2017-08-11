@@ -147,7 +147,7 @@
         				<span class="orderHead">订单编号</span>
         				<span class="nameHead">联系客服</span>
         			</div>
-        			<li v-for="item in friendData.list">
+        			<li v-for="item in myData.list">
         				<div class="imgBox">
         					<img :src="item.img">
         				</div>
@@ -156,8 +156,8 @@
         			</li>
         		</ul>
         		<no-more ref="getMore">
-		        	<p v-if="friendData.hasMore">加载更多...</p>
-					<p v-if="!friendData.hasMore">客官，到底啦</p>
+		        	<p v-if="myData.hasMore">加载更多...</p>
+					<p v-if="!myData.hasMore">客官，到底啦</p>
 		        </no-more>
         	</template>
         	<template v-if="showTab==1">
@@ -177,6 +177,7 @@
 <script>
 	
 	import {mapState,mapActions} from "vuex";
+	import Util from '../libs/util';
 	import noMore from '../components/nomore';
 	import headerComponent from '../components/header';
     export default {
@@ -196,15 +197,15 @@
         computed :{
       		...mapState([
 				'userData',
-				'friendData'
+				'myData',
 			])
       	},
         created(){
 			
         },
         async mounted(){
-        	await this.getFriendsList(this.friendData);
-        	window.addEventListener('scroll', this.scroll);
+        	await this.getMyList(this.myData);
+        	window.addEventListener('scroll', Util.throttle(this.scroll,250,500));
         	this.$store.dispatch("setLoading",false);
         },
         beforeDestroy () {
@@ -215,13 +216,13 @@
         },
         methods: {
         	...mapActions([
-				'getFriendsList'
+				'getMyList'
 			]),
 			async scroll(){
-				let pos = this.$refs.getMore.$el.getBoundingClientRect()
-				if(this.friendData.hasMore && ((pos.top > 0 && window.innerHeight - pos.top > 0) ||
+				let pos = this.$refs.getMore.$el.getBoundingClientRect();
+				if(this.myData.hasMore && ((pos.top > 0 && window.innerHeight - pos.top > 0) ||
                     (pos.top <= 0 && pos.bottom >= 0))) {
-                    	await this.getFriendsList(this.friendData);
+                    	await this.getMyList(this.myData);
                     }
 			},
 			goDetail:function(i){

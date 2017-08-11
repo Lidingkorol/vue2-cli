@@ -283,7 +283,7 @@
         	 	'getAwardData',
         	 	'getAwardNum',
         	 	'randomList',
-        	 ]),
+        	]),
         	randomArr:function(){
         		
         	},
