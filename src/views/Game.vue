@@ -284,9 +284,6 @@
         	 	'getAwardNum',
         	 	'randomList',
         	]),
-        	randomArr:function(){
-        		
-        	},
         	async getAward(i) {
         		await this.getAwardNum(i);
         		let time = this.findGoods(this.lotteryData.goods_id)

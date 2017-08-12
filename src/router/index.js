@@ -1,11 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-//import Hello from '@/components/Hello'
-import Game from '../views/Game'
-import Center from '../views/Center'
-import Recharge from '../views/Recharge'
-import Test from '../views/Test'
-
 
 
 Vue.use(Router)
@@ -24,22 +18,22 @@ export default new Router({
     {
       path: '/game',
       name: 'Game',
-      component: Game
+      component:resolve => require(['@/views/Game'],resolve)
     },
     {
       path: '/center',
       name: 'Center',
-      component: Center
+      component:resolve => require(['@/views/Center'],resolve)
     },
     {
       path: '/recharge',
       name: 'Recharge',
-      component: Recharge
+      component:resolve => require(['@/views/Recharge'],resolve)
     },
     {
       path: '/test',
       name: 'Test',
-      component: Test
+      component:resolve => require(['@/views/Test'],resolve)
     }
 
   ]

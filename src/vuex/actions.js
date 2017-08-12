@@ -5,6 +5,7 @@
 	import Vue from 'vue'
 	import Config from '../conf/config' 
 	import Request from '../conf/request'
+	import Util from '../libs/util'
 
 
 const actions = {
@@ -54,12 +55,7 @@ const actions = {
         }
     },
     randomList({commit},arr){
-    	var _arr = [];
-	    var length = arr.length;
-	    for(let i=0; i<length; i++){
-	        let random = Math.random() * arr.length;
-	        _arr.push(arr.splice(random, 1)[0]);
-	    }
+    	let _arr = Util.shuffle(arr)
 	    commit('LIST_DATA', _arr);
     },
     async getMyList(store,obj) {

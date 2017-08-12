@@ -97,4 +97,13 @@ export default {
             }
         };
     },
+    shuffle(arr) {
+    	let _arr = [];
+	    let length = arr.length;
+	    for(let i=0; i<length; i++){
+	        let random = Math.random() * arr.length;
+	        _arr.push(arr.splice(random, 1)[0]);
+	    }
+	    return _arr
+    }
 }

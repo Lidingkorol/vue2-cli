@@ -205,7 +205,7 @@
         },
         async mounted(){
         	await this.getMyList(this.myData);
-        	window.addEventListener('scroll', Util.throttle(this.scroll,250,500));
+        	window.addEventListener('scroll', this.scroll);
         	this.$store.dispatch("setLoading",false);
         },
         beforeDestroy () {
