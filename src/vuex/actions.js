@@ -87,6 +87,9 @@ const actions = {
         }else {
         	store.commit('DEFAULT_DATA', res.data)
         }
+    },
+    luckyPlateIsPlaying(store,status) {
+    	store.commit('LUCKY_PLATE_STATUS', status);
     }
 }
 

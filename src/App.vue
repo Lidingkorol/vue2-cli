@@ -45,7 +45,6 @@
 				this.getUserInfo();
       },
       mounted(){
-      	console.log(Util)
       	window.addEventListener('scroll',Util.throttle(this.handleScroll,250,500));
       },
       beforeDestroy () {

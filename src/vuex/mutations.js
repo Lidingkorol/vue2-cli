@@ -6,7 +6,6 @@
 var mutations = {
     ROUTER_LOADING (state,platform) {
         state.indexLoading = platform
-        console.log(state.indexLoading)
     },
     USER_DATA (state,res) {
     	state.userData = res
@@ -31,6 +30,9 @@ var mutations = {
     },
     HASMORE_MY_DATA(state,res) {
     	state.myData.hasMore = res;
+    },
+    LUCKY_PLATE_STATUS(state,res) {
+    	state.luckyPlate.isPlaying = res;
     }
 }
 

@@ -21,6 +21,9 @@ const state = {
     	isLoading:true,
     	hasMore:true,
     },
+    luckyPlate:{
+    	isPlaying:false,
+    }
 }
 
 

@@ -7,11 +7,13 @@ import router from './router'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';    // 使用 CSS
 //import 'swiper/dist/css/swiper.css'
-//import VueAwesomeSwiper from 'vue-awesome-swiper'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
 import VueLocalStorage from 'vue-localstorage'
 import store from './vuex/store'
 
-//Vue.use(VueAwesomeSwiper)
+
+
+Vue.use(VueAwesomeSwiper)
 Vue.use(VueResource)
 Vue.use(iView);
 Vue.use(VueLocalStorage)

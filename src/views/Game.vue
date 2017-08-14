@@ -56,6 +56,7 @@
 				height: 3.6rem;
 				display: flex;
 				flex-direction: column;
+				align-items: center;
 				>span {
 					height: .7rem;
 					line-height: .7rem;
@@ -63,12 +64,18 @@
 				}
 				.msg {
 					margin-top: .3rem;
+					height: 1.5rem;
+					width: 4rem;
+					overflow: hidden;
 					>span {
 						padding: 0 .2rem;
 					}
 					.item {
-						height: .5rem;
-						color:#fff;
+						width: 100%;
+						height: 1.5rem;
+						display: flex;
+						justify-content: center;
+						align-items: center;
 					}
 				}
 			}
@@ -216,13 +223,20 @@
 	                                </div>
 	                            </div>
 	                        </div>-->
+	                        <swiper :options="swiperOption" ref="mySwiper">
+							    <swiper-slide v-for="(i,index) in awardData" :key="index">
+							    	<div class="item">
+							    		<span>{{i.nickname}}</span>抽中了<span>{{i.goods_name}}</span>
+							    	</div>
+							    </swiper-slide>
+							</swiper>
 	                    </div>
 	                </div>
 	                <div class="content_bd">
 	                    <ul class="goods">
 	                        <li v-for="(item,i) in listData"><img :src="item.img" :class="[lottery.isActive-1==i? 'active' : '' ]"></li>
 	                    </ul>
-	                    <a class="refresh" @click="randomArr()" :class="{rotate:isRotate}">
+	                    <a class="refresh" @click="randomArr()" :disabled="luckyPlate.isPlaying" :class="{rotate:isRotate}">
 							<img src="../../static/images/refresh_03.png">
 						</a>
 	                </div>
@@ -230,8 +244,8 @@
 	        </div>
 	    </div>
 	    <div class="buttonBox">
-	    	<button @click="getAward(1)" class="once">抽一次</button>
-			<button @click="getAward(2)" class="more">抽十次</button>
+	    	<button @click="getAward(1)" :disabled="luckyPlate.isPlaying" class="once">抽一次</button>
+			<button @click="getAward(2)":disabled="luckyPlate.isPlaying"  class="more">抽十次</button>
 	    </div>
     </div>
 </template>
@@ -239,8 +253,14 @@
 	
 	import { mapState,mapActions } from 'vuex'
 	import {Sine} from '../libs/tween'
+	import { swiper, swiperSlide } from 'vue-awesome-swiper'
+	require('swiper/dist/css/swiper.css')
 	
     export default {
+    	components:{
+    		swiper,
+    		swiperSlide
+    	},
         data () {
             return {
             	lottery:{
@@ -250,9 +270,15 @@
 					speed:200,		//转动速度            
 					times:0,		//当前转动次数
 					cycle:100,		//基本转动次数
-					isPlaying:true	//是否在游戏中
 				}, 
 				isRotate:false,
+				swiperOption:{
+					autoplay: 2000,
+                    paginationClickable :true,
+		          	mousewheelControl : true,
+		          	observeParents:true,
+		          	loop:true,
+				}
             }
         },
         computed:{
@@ -262,6 +288,7 @@
 				'awardData',
 				'awardNum',
 				'lotteryData',
+				'luckyPlate'
 			])
         },
         created(){
@@ -270,7 +297,6 @@
         	this.$store.dispatch("setLoading",false);
         },
         mounted(){
-        	
         },
         beforeDestroy () {
         },
@@ -283,31 +309,27 @@
         	 	'getAwardData',
         	 	'getAwardNum',
         	 	'randomList',
+        	 	'luckyPlateIsPlaying'
         	]),
         	async getAward(i) {
+        		await this.luckyPlateIsPlaying(true);
         		await this.getAwardNum(i);
         		let time = this.findGoods(this.lotteryData.goods_id)
         		this.lottery.reward = time;
         		this.play();
         	},
         	play:function(i){
-        		this.lottery.isPlaying=false;
         		this.lottery.times++;
         		this.lottery.isActive++;
         		if(this.lottery.cycle<this.lottery.times&&this.lottery.isActive==this.lottery.reward) {
         			this.lottery.speed=200;
         			this.lottery.times=0;
         			clearTimeout(this.lottery.timer);
-        			this.lottery.isPlaying=true;
-        			this.isShow=true;
-        			this.isChanging=false;
+        			this.luckyPlateIsPlaying(false);
         			return false;
         		}
 				this.lottery.isActive = this.lottery.isActive>16 ? 1 : this.lottery.isActive;
-				this.lottery.speed=0.01*Math.pow((this.lottery.times-10),2)+30
-				if(this.lottery.speed<0) {
-					this.lottery.speed=10;
-				}
+				this.lottery.speed=0.01*Math.pow((this.lottery.times-10),2)+30<10 ? 10 : 0.01*Math.pow((this.lottery.times-10),2)+30;
         		this.lottery.timer=setTimeout(this.play,this.lottery.speed)
         	},
         	findGoods:function(target){
@@ -321,11 +343,12 @@
         		return num;
         	},
         	randomArr:function(){
-        		this.isRotate=true;
+        		this.luckyPlateIsPlaying(true);
+        		this.isRotate = true;
         		this.randomList(this.listData)
         		setTimeout(()=>{
-        			this.isRotate=false;
-        			console.log('a')
+        			this.luckyPlateIsPlaying(false);
+        			this.isRotate = false;
         		},1000)
         	}
         	

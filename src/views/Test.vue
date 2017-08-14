@@ -1,17 +1,49 @@
 <style scoped>
-
+	.item {
+		height:96px;
+	}
+	.msg {
+		height: 3rem;
+		overflow: hidden;
+	}
 </style>
 <template>
     <div class="container">
         <router-link :to="{ name: 'Game', params: { userId: 123 }}">game</router-link>
+    	<div class="msg">
+    		<swiper :options="swiperOption" ref="mySwiper">
+			    <!-- slides -->
+			    <swiper-slide v-for="(i,index) in swipers" :key="index">
+			    	<div class="item">
+			    		{{i}}
+			    	</div>
+			    </swiper-slide>
+			</swiper>
+    	</div>
+    	
     </div>
 </template>
 <script>
 
-
+	import { swiper, swiperSlide } from 'vue-awesome-swiper'
+	require('swiper/dist/css/swiper.css')
     export default {
+    	components:{
+    		swiper,
+    		swiperSlide
+    	},
         data () {
-            return {}
+            return {
+            	swiperOption:{
+					autoplay: 2000,
+                    paginationClickable :true,
+		          	mousewheelControl : true,
+		          	observeParents:true,
+		          	loop:true,
+		          	direction : 'vertical',
+				},
+				swipers:[1,2,3,4,5,6],
+            }
         },
         created(){
             console.log(3)
