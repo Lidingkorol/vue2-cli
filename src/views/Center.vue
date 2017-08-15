@@ -252,9 +252,7 @@
                     				await this.getFriendList(this.friendData);
                     			}
                     			break;
-                    		default:
-                    			await this.getMyList(this.myData);
-                    			break;
+                    		default:break;
                     	}
                     	
                     }
