@@ -61,9 +61,10 @@
 					height: .7rem;
 					line-height: .7rem;
 					text-align: center;
+					font-size: .28rem;
 				}
 				.msg {
-					margin-top: .3rem;
+					padding-top: .3rem;
 					height: 1.5rem;
 					width: 4rem;
 					overflow: hidden;
@@ -72,10 +73,15 @@
 					}
 					.item {
 						width: 100%;
-						height: 1.5rem;
+						height: 1.2rem;
 						display: flex;
 						justify-content: center;
 						align-items: center;
+						color: #fff;
+						font-size: .28rem;
+						span {
+							padding: 0 .1rem;
+						}
 					}
 				}
 			}
@@ -139,18 +145,18 @@
 		font-size: .34rem;
 		.once {
 			background:url(../../static/images/button.png) no-repeat;
-			background-size: 100%;
+			background-size: cover;
 			width: 2rem;
-			height: .7rem;
+			height: .65rem;
 			border: none;
 			outline: none;
 			font-weight: bold;
 		}
 		.more {
 			background:url(../../static/images/button.png) no-repeat;
-			background-size: 100%;
+			background-size: cover;
 			width: 2rem;
-			height: .7rem;
+			height: .65rem;
 			border: none;
 			outline: none;
 			margin-left: .8rem;
@@ -247,6 +253,10 @@
 	    	<button @click="getAward(1)" :disabled="luckyPlate.isPlaying" class="once">抽一次</button>
 			<button @click="getAward(2)":disabled="luckyPlate.isPlaying"  class="more">抽十次</button>
 	    </div>
+	    <div class="descBox">
+	    	<h2>温馨提示:</h2>
+	    	<p></p>
+	    </div>
     </div>
 </template>
 <script>
@@ -288,15 +298,15 @@
 				'awardData',
 				'awardNum',
 				'lotteryData',
-				'luckyPlate'
+				'luckyPlate',
 			])
         },
         created(){
 			this.getListGoods();
 			this.getAwardData();
-        	this.$store.dispatch("setLoading",false);
         },
         mounted(){
+        	this.$store.dispatch("setLoading",false);
         },
         beforeDestroy () {
         },
@@ -325,6 +335,7 @@
         			this.lottery.speed=200;
         			this.lottery.times=0;
         			clearTimeout(this.lottery.timer);
+        			this.getAwardData();
         			this.luckyPlateIsPlaying(false);
         			return false;
         		}

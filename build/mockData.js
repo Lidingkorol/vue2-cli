@@ -39,14 +39,18 @@ app.post('/api/getListGoods', function (req, res) {
 
 
 app.get('/api/getAwardData', function (req, res) {
-    var Random = Mock.Random,
+    var Random = Mock.Random;
+    let arr=[];
+    for(let i=0;i<10;i++){
+		arr.push({
+			uid : Random.natural(10000, 100000),
+            nickname : Random.cname(),
+            goods_name : Random.ctitle(3, 6),
+		})
+	}
         data   = Mock.mock({
             status: '200',
-            'data|6': [{
-                uid : Random.natural(10000, 100000),
-                nickname : Random.cname(),
-                goods_name : Random.ctitle(3, 8),
-            }]
+            'data': arr
         });
 
     res.send( JSON.stringify(data, null, 4) );
@@ -81,9 +85,10 @@ app.post('/api/getMyList', function (req, res) {
         	order_id : Random.natural(100000, 10000000),
 		})
 	}
+	let _arr = arr.slice(page*10,(page+1)*10)
     let data   = Mock.mock({
         status: '200',
-        'data': arr.slice(page*10,(page+1)*10)
+        'data': _arr,
     });
 
     res.send( JSON.stringify(data, null, 4) );
@@ -102,9 +107,10 @@ app.post('/api/getFriendList', function (req, res) {
         	order_id : Random.natural(100000, 10000000),
 		})
 	}
+	let _arr = arr.slice(page*10,(page+1)*10)
     let data   = Mock.mock({
         status: '200',
-        'data': arr.slice(page*10,(page+1)*10)
+        'data': _arr
     });
 
     res.send( JSON.stringify(data, null, 4) );

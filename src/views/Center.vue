@@ -145,7 +145,7 @@
         			<div class="item_hd">
         				<span class="imgHead">商品图片</span>
         				<span class="orderHead">订单编号</span>
-        				<span class="nameHead">联系客服</span>
+        				<span class="nameHead">商品名称</span>
         			</div>
         			<li v-for="item in myData.list">
         				<div class="imgBox">
@@ -161,7 +161,24 @@
 		        </no-more>
         	</template>
         	<template v-if="showTab==1">
-        		
+        		<ul class="itemBox">
+        			<div class="item_hd">
+        				<span class="imgHead">商品图片</span>
+        				<span class="orderHead">订单编号</span>
+        				<span class="nameHead">商品名称</span>
+        			</div>
+        			<li v-for="item in friendData.list">
+        				<div class="imgBox">
+        					<img :src="item.img">
+        				</div>
+        				<span class="order_id">{{item.order_id}}</span>
+        				<span class="goods_name">{{item.goods_name}}</span>
+        			</li>
+        		</ul>
+        		<no-more ref="getMore">
+		        	<p v-if="friendData.hasMore">加载更多...</p>
+					<p v-if="!friendData.hasMore">客官，到底啦</p>
+		        </no-more>
         	</template>
         	<template v-if="showTab==2">
         		<div class="serviceBox">
@@ -198,13 +215,14 @@
       		...mapState([
 				'userData',
 				'myData',
+				'friendData',
 			])
       	},
-        created(){
-			
+        async created(){
+			await this.getMyList(this.myData);
+			await this.getFriendList(this.friendData);
         },
         async mounted(){
-        	await this.getMyList(this.myData);
         	window.addEventListener('scroll', this.scroll);
         	this.$store.dispatch("setLoading",false);
         },
@@ -216,13 +234,29 @@
         },
         methods: {
         	...mapActions([
-				'getMyList'
+				'getMyList',
+				'getFriendList',
 			]),
 			async scroll(){
 				let pos = this.$refs.getMore.$el.getBoundingClientRect();
-				if(this.myData.hasMore && ((pos.top > 0 && window.innerHeight - pos.top > 0) ||
+				if(((pos.top > 0 && window.innerHeight - pos.top > 0) ||
                     (pos.top <= 0 && pos.bottom >= 0))) {
-                    	await this.getMyList(this.myData);
+                    	switch (this.showTab){
+                    		case 0 :
+                    			if(this.myData.hasMore) {
+                    				await this.getMyList(this.myData);
+                    			}
+                    			break;
+                    		case 1 :
+                    			if(this.friendData.hasMore) {
+                    				await this.getFriendList(this.friendData);
+                    			}
+                    			break;
+                    		default:
+                    			await this.getMyList(this.myData);
+                    			break;
+                    	}
+                    	
                     }
 			},
 			goDetail:function(i){

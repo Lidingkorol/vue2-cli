@@ -31,6 +31,18 @@ var mutations = {
     HASMORE_MY_DATA(state,res) {
     	state.myData.hasMore = res;
     },
+    FRIEND_DATA(state,res) {
+    	state.friendData.list.push(...res.list);
+    	res.page++;
+    	state.friendData.page = res.page;
+    	state.friendData.isLoading = res.isLoading;
+    },
+    UPDATE_FRIEND_DATA(state,res) {
+    	state.friendData.isLoading = res;
+    },
+    HASMORE_FRIEND_DATA(state,res) {
+    	state.friendData.hasMore = res;
+    },
     LUCKY_PLATE_STATUS(state,res) {
     	state.luckyPlate.isPlaying = res;
     }

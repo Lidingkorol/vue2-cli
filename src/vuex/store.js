@@ -21,6 +21,12 @@ const state = {
     	isLoading:true,
     	hasMore:true,
     },
+    friendData:{
+    	page:0,
+    	list:[],
+    	isLoading:true,
+    	hasMore:true,
+    },
     luckyPlate:{
     	isPlaying:false,
     }
