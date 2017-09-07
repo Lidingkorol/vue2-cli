@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang=zh-CN><head><title>lucky</title><meta charset=UTF-8><meta name=description content=我在这里发现一款很好的宝贝...><meta name=format-detection content="telephone=no"><meta name=viewport content="width=device-width;initial-scale=1;maximum-scale=1;user-scalable=0;"><link href=https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css rel=stylesheet><script>(function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                };
+            // Abort if browser does not support addEventListener
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);</script><link href=./static/css/app.6e1aee8901471608f2aa267451493707.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src=./static/js/manifest.38c4a7a194698da46a5f.js></script><script type=text/javascript src=./static/js/vendor.2efdeab99101e37fe66c.js></script><script type=text/javascript src=./static/js/app.7b3d2f8ae07012827aed.js></script></body></html>
