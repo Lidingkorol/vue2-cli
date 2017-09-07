@@ -173,39 +173,6 @@
 		85% {transform: rotateZ(15deg);}
 		100% {transform: rotateZ(0deg);}
 	}
-	
-	@-moz-keyframes roa /* Firefox */
-	{
-		0% {transform: rotateZ(-45deg);}
-		17% {transform: rotateZ(45deg);}
-		34% {transform: rotateZ(-30deg);}
-		51% {transform: rotateZ(30deg);}
-		68% {transform: rotateZ(-15deg);}
-		85% {transform: rotateZ(15deg);}
-		100% {transform: rotateZ(0deg);}
-	}
-	
-	@-webkit-keyframes roa /* Safari 和 Chrome */
-	{
-		0% {transform: rotateZ(-45deg);}
-		17% {transform: rotateZ(45deg);}
-		34% {transform: rotateZ(-30deg);}
-		51% {transform: rotateZ(30deg);}
-		68% {transform: rotateZ(-15deg);}
-		85% {transform: rotateZ(15deg);}
-		100% {transform: rotateZ(0deg);}
-	}
-	
-	@-o-keyframes roa /* Opera */
-	{
-		0% {transform: rotateZ(-45deg);}
-		17% {transform: rotateZ(45deg);}
-		34% {transform: rotateZ(-30deg);}
-		51% {transform: rotateZ(30deg);}
-		68% {transform: rotateZ(-15deg);}
-		85% {transform: rotateZ(15deg);}
-		100% {transform: rotateZ(0deg);}
-	}
 </style>
 <template>
     <div class="container">
@@ -240,7 +207,7 @@
 	                </div>
 	                <div class="content_bd">
 	                    <ul class="goods">
-	                        <li v-for="(item,i) in listData"><img :src="item.img" :class="[lottery.isActive-1==i? 'active' : '' ]"></li>
+	                        <li v-for="(item,i) in listData"><img :src="item.img" :class="[(lottery.isActive-1==i)||(playMethod.addr[0]==i)||(playMethod.addr[1]==i)? 'active' : '' ]"></li>
 	                    </ul>
 	                    <a class="refresh" @click="randomArr()" :disabled="luckyPlate.isPlaying" :class="{rotate:isRotate}">
 							<img src="../../static/images/refresh_03.png">
@@ -282,6 +249,10 @@
 					cycle:100,		//基本转动次数
 				}, 
 				isRotate:false,
+				playMethod:{
+					status:1,        //1:一次  2：十次
+					addr:[]
+				},   	
 				swiperOption:{
 					autoplay: 2000,
                     paginationClickable :true,
@@ -314,7 +285,7 @@
 
         },
         methods: {
-        	 ...mapActions([
+        	...mapActions([
         	 	'getListGoods',
         	 	'getAwardData',
         	 	'getAwardNum',
@@ -324,18 +295,27 @@
         	async getAward(i) {
         		await this.luckyPlateIsPlaying(true);
         		await this.getAwardNum(i);
-        		let time = this.findGoods(this.lotteryData.goods_id)
+        		let lottery = Array.isArray(this.lotteryData) ? this.lotteryData[0] : this.lotteryData;
+        		this.playMethod.status = i;
+        		let time = this.findGoods(lottery.goods_id)+1;
+        		console.log('time=',time)
         		this.lottery.reward = time;
         		this.play();
         	},
-        	play:function(i){
+        	play:function(){
         		this.lottery.times++;
         		this.lottery.isActive++;
+        		if(this.playMethod.status==2) {
+        			this.playMethod.addr[0] = Math.floor(Math.random(1,15)*10);
+        			this.playMethod.addr[1] = Math.floor(Math.random(1,15)*10);
+        		}
+        		console.log(this.asd)
         		if(this.lottery.cycle<this.lottery.times&&this.lottery.isActive==this.lottery.reward) {
         			this.lottery.speed=200;
         			this.lottery.times=0;
+					this.playMethod.addr = [];    			
         			clearTimeout(this.lottery.timer);
-        			this.getAwardData();
+        			//this.getAwardData();
         			this.luckyPlateIsPlaying(false);
         			return false;
         		}

@@ -58,16 +58,25 @@ app.get('/api/getAwardData', function (req, res) {
 
 app.post('/api/getAwardNum', function (req, res) {
 	console.log(req.body)
-	
-    var Random = Mock.Random,
-        data   = Mock.mock({
+	var Random = Mock.Random,data;
+	if(req.body.num==1) {
+		data = Mock.mock({
             status: '200',
             'data': {
                 goods_id :  Random.natural(100,116),
                 goods_name : Random.ctitle(3, 8),
             }
-        });
-
+       	});
+	}else {
+		console.log('num=',req.body.num)
+		data = Mock.mock({
+            status: '200',
+            'data|10': [{
+                goods_id :  Random.natural(100,116),
+                goods_name : Random.ctitle(3, 8),
+            }]
+       	});	
+	}
     res.send( JSON.stringify(data, null, 4) );
 });
 
