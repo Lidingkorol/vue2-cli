@@ -196,6 +196,7 @@
 	import {mapState,mapActions} from "vuex";
 	import Util from '../libs/util';
 	import noMore from '../components/nomore';
+	import { Indicator } from 'mint-ui';
 	import headerComponent from '../components/header';
     export default {
         data () {
@@ -227,6 +228,7 @@
         	this.$store.dispatch("setLoading",false);
         },
         beforeDestroy () {
+        	Indicator.close();
         	window.removeEventListener('scroll', this.scroll);
         },
         destoryed(){
@@ -257,9 +259,6 @@
                     	
                     }
 			},
-			goDetail:function(i){
-				
-			}
         }
     }
 </script>

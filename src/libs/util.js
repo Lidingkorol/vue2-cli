@@ -105,5 +105,12 @@ export default {
 	        _arr.push(arr.splice(random, 1)[0]);
 	    }
 	    return _arr
+    },
+    sleep(time){
+    	return new Promise(function(resolve,reject){
+    		setTimeout(function(){
+    			resolve();
+    		},time)
+    	})
     }
 }

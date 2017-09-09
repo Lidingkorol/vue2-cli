@@ -6,7 +6,7 @@
 	import Config from '../conf/config' 
 	import Request from '../conf/request'
 	import Util from '../libs/util'
-
+	import { Indicator } from 'mint-ui';
 
 const actions = {
     setLoading ({commit},platform){
@@ -63,7 +63,9 @@ const actions = {
     		return ;
     	}
     	store.commit('UPDATE_MY_DATA', false);
+    	Indicator.open();
     	let res = await Request.post(Config.apiDomain + '/api/getMyList',{data:{page:obj.page}});
+        await Util.sleep(1000);
         if(res.status == 200&& !!res.data) {
         	store.commit('MY_DATA',{list:res.data,page:obj.page,isLoading:true})
         	if(res.data.length<10) {
@@ -72,12 +74,15 @@ const actions = {
         }else {
         	store.commit('DEFAULT_DATA', res.data)
         }
+        Indicator.close();
     },
     async getFriendList(store,obj) {
     	if(!store.state.friendData.isLoading){
     		return ;
     	}
     	store.commit('UPDATE_FRIEND_DATA', false);
+    	Indicator.open();
+    	await Util.sleep(1000);
     	let res = await Request.post(Config.apiDomain + '/api/getFriendList',{data:{page:obj.page}});
         if(res.status == 200&& !!res.data) {
         	store.commit('FRIEND_DATA',{list:res.data,page:obj.page,isLoading:true})
@@ -87,6 +92,7 @@ const actions = {
         }else {
         	store.commit('DEFAULT_DATA', res.data)
         }
+        Indicator.close();
     },
     luckyPlateIsPlaying(store,status) {
     	store.commit('LUCKY_PLATE_STATUS', status);

@@ -9,7 +9,7 @@
 		height: 15rem;
 		.h_title {
 			padding: 1rem .3rem .5rem .3rem;
-			height: 3.5rem;
+			height: 2.2rem;
 			img {
 				width: 100%;
 				animation: roa 1s;
@@ -52,8 +52,7 @@
     .turnTable {
         .content {
 			.content_hd {
-				padding-top: 1.44rem;
-				height: 3.6rem;
+				padding-top: 1.2rem;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
@@ -68,6 +67,7 @@
 					height: 1.5rem;
 					width: 4rem;
 					overflow: hidden;
+					box-sizing: border-box;
 					>span {
 						padding: 0 .2rem;
 					}
@@ -99,10 +99,11 @@
 					border-radius: .1rem;
 					display: flex;
 					flex-wrap: wrap;
-					justify-content: space-between;
+					justify-content: space-around;
 					align-items: center;
 				    height: 100%;
 				    width: 100%;
+				    box-sizing: border-box;
 					li {
 						width: 1.25rem;
 						height: 1.25rem;
@@ -120,14 +121,14 @@
 						}
 					}
 				}
-				>a img{
+				>button img{
 				width: 1rem;
 				height: 1rem;
 				position: absolute;
 				top: 2.3rem;
 			    left: 2.3rem;
 				}
-				>a.rotate img {
+				>button.rotate img {
 					-moz-transform: rotateZ(360deg);
 				    -ms-transform: rotateZ(360deg);
 				    -o-transform: rotateZ(360deg);
@@ -161,6 +162,15 @@
 			outline: none;
 			margin-left: .8rem;
 			font-weight: bold;
+		}
+	}
+	.descBox {
+		padding: .2rem;
+		h2 {
+			font-size: .3rem;
+		}
+		p {
+			font-size: .28rem;
 		}
 	}
     @keyframes roa
@@ -209,20 +219,20 @@
 	                    <ul class="goods">
 	                        <li v-for="(item,i) in listData"><img :src="item.img" :class="[(lottery.isActive-1==i)||(playMethod.addr[0]==i)||(playMethod.addr[1]==i)? 'active' : '' ]"></li>
 	                    </ul>
-	                    <a class="refresh" @click="randomArr()" :disabled="luckyPlate.isPlaying" :class="{rotate:isRotate}">
+	                    <button class="refresh" @click="randomArr()" :disabled="luckyPlate.isPlaying" :class="{rotate:isRotate}">
 							<img src="../../static/images/refresh_03.png">
-						</a>
+						</button>
 	                </div>
 	            </div>
 	        </div>
 	    </div>
 	    <div class="buttonBox">
 	    	<button @click="getAward(1)" :disabled="luckyPlate.isPlaying" class="once">抽一次</button>
-			<button @click="getAward(2)":disabled="luckyPlate.isPlaying"  class="more">抽十次</button>
+			<button @click="getAward(2)" :disabled="luckyPlate.isPlaying"  class="more">抽十次</button>
 	    </div>
 	    <div class="descBox">
 	    	<h2>温馨提示:</h2>
-	    	<p></p>
+	    	<p>asdasdasdasdasdasdasdasads</p>
 	    </div>
     </div>
 </template>

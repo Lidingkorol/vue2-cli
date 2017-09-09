@@ -5,11 +5,14 @@ import App from './App'
 import VueResource from 'vue-resource'
 import router from './router'
 import iView from 'iview';
-import 'iview/dist/styles/iview.css';    // 使用 CSS
+//import 'iview/dist/styles/iview.css';    // 使用 CSS
 //import 'swiper/dist/css/swiper.css'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import VueLocalStorage from 'vue-localstorage'
 import store from './vuex/store'
+import Mint from 'mint-ui';
+import 'mint-ui/lib/style.css'
+Vue.use(Mint);
 
 
 

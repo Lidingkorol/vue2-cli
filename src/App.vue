@@ -4,14 +4,15 @@
         <router-view></router-view>
     </transition>
     <transition name="fade">
-        <div class="loading" style="position: relative;" v-show="indexLoading" @touchmove.prevent>
-            <Spin fix>
+        <div class="loading" v-show="indexLoading" @touchmove.prevent>
+            <!--<Spin fix>
                 <div class="loader">
                     <svg class="circular" viewBox="25 25 50 50">
                         <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
                     </svg>
                 </div>
-            </Spin>
+            </Spin>-->
+            <mt-spinner :type="2" color="#26a2ff" :size="60"></mt-spinner>
         </div>
     </transition>
     <transition name="ani-in">
@@ -77,13 +78,14 @@
   @import  '../static/css/base.css';
 
   .loading {
-      position: relative;
       width: 1.5rem;
       height: 1.5rem;
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%,-50%);
+      transform: translate(-50%,-50%) scale(3,3);
+     	background: rgba(255,255,255,0); 
+     	z-index: 10000;
   }
   .circular {
       -webkit-animation: rotate 2s linear infinite;
